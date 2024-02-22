@@ -6,9 +6,10 @@ exports.getPokemonTypes = async (req, res) => {
     
     try {
         const apiTypeData = await axios.get(`https://pokeapi.co/api/v2/type`)
+       
         
         const dbTypeData = apiTypeData.data.results
-     
+       
         
         
         

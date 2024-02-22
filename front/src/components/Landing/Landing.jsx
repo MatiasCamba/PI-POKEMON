@@ -7,7 +7,7 @@ const Landing = () => {
     <>    
     <div>Soy el landing</div>
     <button>
-      <Link to='/Home'>IR AL HOME!</Link>
+      <Link to='/Home'>IR AL HOME</Link>
     </button>
     </>
 

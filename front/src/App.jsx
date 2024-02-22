@@ -11,14 +11,14 @@ function App() {
 
 
   return (
-    <BrowserRouter>
+  <>
     <NavBar />
       <Routes>
         <Route exact path='/' element={<Landing />} /> 
         <Route path='/home' element={<Home />} />
         <Route path='/form' element= {<Form />}/>
       </Routes>
-    </BrowserRouter>
+      </>
   )
 }
 

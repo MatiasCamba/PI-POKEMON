@@ -1,15 +1,19 @@
 const axios = require('axios')
 const { Pokemon } = require('../db');
-const {Type} = require('../db')
-const { Op } = require('sequelize')
+const { Type } = require('../db')
+const { Op } = require('sequelize');
+
 
 
 
 exports.getPokemons = async (req, res) => {
     try {
         const response = await axios.get('https://pokeapi.co/api/v2/pokemon');
-        const pokemonData = response.data;
-        res.status(200).json(pokemonData);
+        const pokemonData = response.data.results;
+        console.log('me llega la data de la api:', pokemonData)
+        const dbData = await Pokemon.findAll()
+        console.log('me llega la data de la db:', dbData)
+        res.status(200).json({ pokemonData, dbData });
 
     } catch (error) {
         res.status(500).json({ error: error.message || "Error al recibir los datos!" })
@@ -30,7 +34,7 @@ exports.getPokemonsById = async (req, res) => {
 
 
         const bdData = await Pokemon.findByPk(idPokemon, {
-            include: Type,
+            include: { model: Type },
         })
 
         console.log("asi llega la bd data:", bdData);
@@ -46,34 +50,53 @@ exports.getPokemonsById = async (req, res) => {
     }
 }
 
+
 exports.getPokemonsByName = async (req, res) => {
-    const { name, nameBd } = req.query
+    const { name } = req.query
+    const nameApi = name.toLowerCase();
+    let dbResponse;
+    let apiData;
 
     try {
-        const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
-        const apiData = apiResponse.data.name;
-        console.log("me llega la data asi :", apiData)
-
-        const dbResponse = await Pokemon.findOne({
+        dbResponse = await Pokemon.findAll({
             where: {
                 name: {
-                    [Op.iLike]: nameBd,
+                    [Op.iLike]: `%${nameApi}%`,
                 }
             }
         });
-        console.log("me llega la bd asi :", dbResponse)
+    } catch (error) {
+        return res.status(500).json({ error: 'Error al recibir datos de la base de datos.' });
+    }
 
-        apiData || dbResponse ? res.status(200).json({ apiData, dbResponse }) : res.status(400).json({ error: 'No se encontró pokemon con ese nombre!' })
+    
+    try {
+        const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${nameApi}`);
+        apiData = apiResponse.data.name;
 
     } catch (error) {
-        res.status(404).json({ error: 'Error al recibir datos!' })
+        if(error.response && error.response.status === 404){
+            apiData = null;
+        }else{
+
+            return res.status(500).json({ error: 'Error al recibir datos de la api.' });
+        }
+    }
+
+
+    if (dbResponse.length === 0 && !apiData) {
+
+        return res.status(400).json({ error: 'El Pokémon no existe en la API ni en la base de datos.' });
+
+    } else if (dbResponse.length > 0 || apiData) {
+        return res.status(200).json({ dbResponse, apiData })
     }
 }
 
+
 exports.createPokemon = async (req, res) => {
-    const { name, hp, def, speed, height, weight} = req.body;
-    
-    console.log("me llego esta info: ", name, hp, def, speed, height, weight)
+    const { name, hp, def, speed, height, weight, typeName } = req.body;
+
 
     try {
         const created = await Pokemon.create({
@@ -83,15 +106,26 @@ exports.createPokemon = async (req, res) => {
             speed,
             height,
             weight,
-        }, {
-            include: Type
-        })
 
-        console.log("me llego este created :", created)
+        })
+        // lograr entrar al type , dentro acceder al name y pasarlo al addType
+        const allType = await Type.findOne({ where: { name: typeName } })
+
+        const TypeId = allType.id
+
+        await created.addType(TypeId);
+        const createdPokemon = await Pokemon.findOne({ where: { name } }, {
+            include: {
+                model: Type,
+                through: {
+                    attributes: [],
+                },
+            },
+        })
 
 
         if (created) {
-            res.status(200).json(created);
+            res.status(200).json(createdPokemon);
         } else {
             res.status(404).json({ error: 'No se pudo crear un nuevo pokemon , intenta de nuevo!' })
         }
