@@ -9,16 +9,17 @@ import React from 'react'
 const CardContainer = () => {
     const dispatch = useDispatch();
     const pokemons = useSelector((state) => state.pokemons);
+   
 
     useEffect(()=>{
         dispatch(GETPOKEMONS())
     },[]);
 
     return (
-        <div>
-            {pokemons.map((pokemon) => {
+        <div className='card-container'>
+            {pokemons?.map((pokemon) => {
                 return <Card 
-                key={pokemon.name} 
+                key={pokemon?.name} 
                 pokemon={pokemon} />
             })}
         </div>

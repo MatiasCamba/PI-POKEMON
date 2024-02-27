@@ -1,0 +1,24 @@
+.searchBar-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffcc00; /* Color Pikachu */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.searchBar-container input {
+    border: none;
+    background-color: transparent;
+    color: #333; /* Color de texto oscuro */
+    font-size: 16px;
+    width: 200px;
+    padding: 5px;
+}
+
+.searchBar-container button {
+    background-color: transparent;
+    border: 1px solid red;
+    cursor: pointer;
+    font-size: 18px;
+    color: #333; /* Color de texto oscuro */
+}

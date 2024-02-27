@@ -14,7 +14,7 @@ router.get('/home',PokemonController.getPokemons);
 router.get('/type',TypeController.getPokemonTypes);
 router.get('/name', PokemonController.getPokemonsByName);
 router.post('/add',PokemonController.createPokemon);
-router.get('/:id',PokemonController.getPokemonsById);
+router.get('/detail/:id',PokemonController.getPokemonsById);
 
 
 module.exports = router;

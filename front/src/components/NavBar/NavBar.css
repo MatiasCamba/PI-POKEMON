@@ -1,0 +1,26 @@
+.navBar-container {
+    background-color: #ffcc00; 
+    padding: 10px;
+    text-align: center;
+}
+
+.navBar-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.navBar-container li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.navBar-container a {
+    text-decoration: none;
+    color: #333; 
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navBar-container a:hover {
+    color: #ff0000; 
+}

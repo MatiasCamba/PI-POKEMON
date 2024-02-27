@@ -28,7 +28,7 @@ exports.getPokemonsById = async (req, res) => {
     try {
 
         const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-        const apiData = apiResponse.data.id;
+        const apiData = apiResponse.data;
 
         console.log("asi llega la api:", apiData);
 
@@ -62,26 +62,34 @@ exports.getPokemonsByName = async (req, res) => {
             where: {
                 name: {
                     [Op.iLike]: `%${nameApi}%`,
-                }
+                } //true
             }
         });
     } catch (error) {
         return res.status(500).json({ error: 'Error al recibir datos de la base de datos.' });
     }
 
-    
+
     try {
+
         const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${nameApi}`);
-        apiData = apiResponse.data.name;
+        apiData = {
+            name: apiResponse.data.name,
+            image: apiResponse.data.sprites.front_default,
+            id: apiResponse.data.id
+        } //false
+
+
 
     } catch (error) {
-        if(error.response && error.response.status === 404){
-            apiData = null;
-        }else{
+       
+        if (error.response && error.response.status === 404) {
+            apiData = null; 
+        } else {
 
             return res.status(500).json({ error: 'Error al recibir datos de la api.' });
         }
-    }
+    } // IMPORTANTE
 
 
     if (dbResponse.length === 0 && !apiData) {

@@ -1,11 +1,19 @@
 import React from 'react'
 import CardContainer from '../CardContainer/CardContainer'
+import SearchBar from '../SearchBar/SearchBar'
+import SearchContainer from '../SearchContainer/SearchContainer'
+
 
 
 const Home = () => {
 
   return (
-<CardContainer/>
+    <>
+    <SearchBar /> 
+    <hr />
+    <SearchContainer />
+    <CardContainer/>  
+</>
   )
 }
 

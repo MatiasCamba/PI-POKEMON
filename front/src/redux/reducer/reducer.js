@@ -1,28 +1,42 @@
 //importar actions
-import {GET_POKEMONS} from '../actions/actions'
+import { GET_POKEMONS } from '../actions/actions'
+import { SEARCH_POKEMON } from '../actions/actions'
+import { POKEMON_DETAIL } from '../actions/actions'
 
 const initialState = {
-pokemons: [],
+    pokemons: [],
+    pokemonsBySearch: [],
+    pokemonDetail: []
 }
 
 
-const rootReducer = (state = initialState ,{type,payload}) =>{
+const rootReducer = (state = initialState, { type, payload }) => {
 
-    switch(type){
-        case GET_POKEMONS : 
-        return{
-            ...state,
-            pokemons : payload
-            
-        }
-        
+    switch (type) {
+        case GET_POKEMONS:
+            return {
+                ...state,
+                pokemons: payload
 
-        default: return{
+            }
+        case SEARCH_POKEMON:
+            return {
+                ...state,
+                pokemonsBySearch: [payload]
+            }
+
+        case POKEMON_DETAIL:
+            return {
+                ...state,
+                pokemonDetail: payload,
+            }
+
+        default: return {
             ...state
         }
     }
 }
-console.log('mi estado:', initialState)
+
 
 
 export default rootReducer;

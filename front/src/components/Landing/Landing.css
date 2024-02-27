@@ -1,0 +1,57 @@
+.landing-container{
+    background-image: url('../../images/logo5.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+}
+
+
+.landing-button {
+    cursor: pointer;
+    background-color: transparent;
+    color: rgb(147, 147, 146);
+    border: none;
+    font-size: 25px;
+    position: relative;
+    z-index: 3;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+  }
+  
+  .landing-button::before {
+    content: "";
+    border: 3px solid rgb(238, 68, 59);
+    position: absolute;
+    left: -25px;
+    bottom: 0;
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 60px;
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    -ms-border-radius: 60px;
+    -o-border-radius: 60px;
+    transition: 0.5s;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -ms-transition: 0.5s;
+    -o-transition: 0.5s;
+  }
+  .landing-button:hover::before {
+    left: -25px;
+    bottom: -17.5px;
+    width: 100%;
+    padding: 20px;
+    background-color: rgb(245, 225, 110);
+    z-index: -1;
+  }
+  
