@@ -77,7 +77,7 @@ exports.getPokemonsByName = async (req, res) => {
             name: apiResponse.data.name,
             image: apiResponse.data.sprites.front_default,
             id: apiResponse.data.id
-        } //false
+        } 
 
 
 

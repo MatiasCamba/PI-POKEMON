@@ -7,6 +7,7 @@ import Form from './components/Form/Form'
 import NavBar from './components/NavBar/NavBar'
 import About from './components/About/About'
 import CardDetail from './components/CardDetail/CardDetail'
+import Footer from './components/Footer/Footer'
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path='/about' element= {<About/>} />
         <Route path='/detail/:id' element={<CardDetail/>} />
       </Routes>
+      <hr />
+      <Footer/>
       </>
   )
 }
