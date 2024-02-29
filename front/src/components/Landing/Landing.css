@@ -14,7 +14,7 @@
 .landing-button {
     cursor: pointer;
     background-color: transparent;
-    color: rgb(147, 147, 146);
+    color: rgb(251, 251, 249);
     border: none;
     font-size: 25px;
     position: relative;
@@ -51,7 +51,7 @@
     bottom: -17.5px;
     width: 100%;
     padding: 20px;
-    background-color: rgb(245, 225, 110);
+    background-color: rgb(245, 244, 244);
     z-index: -1;
   }
   

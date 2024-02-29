@@ -14,6 +14,7 @@ const Card = ({ pokemon }) => {
       <Link to={`/detail/${pokemon?.id}`}>
       <h2>{pokemon?.name}</h2>
       </Link>
+   
 
      
       </div>
