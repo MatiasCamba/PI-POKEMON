@@ -11,7 +11,7 @@ const NavBar = () => {
         <nav className='navBar-container'>
             {isLanding ? null : <ul>
                 <li><Link to='/Home'>Home</Link></li>
-                <li><Link to='/Form'>Create Pokemon</Link></li>
+                <li><Link to='/add'>Create Pokemon</Link></li>
                 <li><Link to='/About'>About</Link></li>
             </ul>}
 

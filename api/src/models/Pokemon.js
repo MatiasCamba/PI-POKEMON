@@ -15,13 +15,16 @@ module.exports = (sequelize) => {
     },
     image : {
       type:DataTypes.STRING,
-      
+      validate: {
+         isUrl: true,
+      },
+      allowNull: false,
    },
    hp:{
       type: DataTypes.INTEGER,
       allowNull: false,
    },
-   def: {
+   defense: {
       type:DataTypes.INTEGER,
       allowNull: false,
    },

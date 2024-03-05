@@ -20,7 +20,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Landing />} /> 
         <Route path='/home' element={<Home />} />
-        <Route path='/form' element= {<Form />}/>
+        <Route path='/add' element= {<Form />}/>
         <Route path='/about' element= {<About/>} />
         <Route path='/detail/:id' element={<CardDetail/>} />
       </Routes>

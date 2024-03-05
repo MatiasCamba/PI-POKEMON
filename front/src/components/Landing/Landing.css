@@ -1,5 +1,5 @@
 .landing-container{
-    background-image: url('../../images/logo5.jpg');
+    background-image: url('../../images/logo1.webp');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -13,20 +13,35 @@
 
 .landing-button {
     cursor: pointer;
-    background-color: transparent;
-    color: rgb(251, 251, 249);
-    border: none;
-    font-size: 25px;
-    position: relative;
-    z-index: 3;
-    transition: 0.5s;
-    -webkit-transition: 0.5s;
-    -moz-transition: 0.5s;
-    -ms-transition: 0.5s;
-    -o-transition: 0.5s;
-  }
+    font-size: 30px;
+    opacity: 75%;
+    background: radial-gradient(
+    white 16px,
+    black 17px 18px,
+    white 19px 24px,
+    black 25px 32px,
+    transparent 33px
+  ),
+  linear-gradient(to bottom, red 0 80px, black 81px 96px, white 97px 100%);
+  border-radius: 50%;
+  border: 8px solid black;
+  box-shadow: inset -16px -8px 0 0 rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 192px;
+  height: 192px;
+}
+
+.landing-button a{
+  color: black;
+  line-height: 9;
+
+}
   
-  .landing-button::before {
+  
+/*   .landing-button::before {
     content: "";
     border: 3px solid rgb(238, 68, 59);
     position: absolute;
@@ -53,5 +68,5 @@
     padding: 20px;
     background-color: rgb(245, 244, 244);
     z-index: -1;
-  }
+  } */
   

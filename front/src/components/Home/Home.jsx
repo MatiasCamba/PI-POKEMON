@@ -5,7 +5,10 @@ import SearchContainer from '../SearchContainer/SearchContainer'
 
 
 
+
+
 const Home = () => {
+
 
   return (
     <>
@@ -13,6 +16,7 @@ const Home = () => {
     <hr />
     <SearchContainer />
     <CardContainer/>  
+    
   </>
   )
 }

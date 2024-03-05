@@ -1,31 +1,47 @@
 export const GET_POKEMONS = 'GETPOKEMONS';
 export const SEARCH_POKEMON = 'SEARCHPOKEMON';
 export const POKEMON_DETAIL = 'POKEMONDETAIL';
+export const CREATE_POKEMON = 'CREATEPOKEMON';
+export const FILTER_POKEMON_ORDER = 'FILTERPOKEMONORDER'
 
-import axios from 'axios';
+import axios, { all } from 'axios';
 
 export const GETPOKEMONS = () => async (dispatch) => {
 
-        const apiResponse = await axios.get('https://pokeapi.co/api/v2/pokemon')
-        const pokemonsData = apiResponse.data.results  //TRAE DATA CON NAME Y URL
 
-        //map a pokemonsData (name , url) , por cada pokemon , ingresar a .url <= axios.get   
-        const allUrlData = pokemonsData.map((pokemons) => axios.get(pokemons.url)); // TRAE TODA LA DATA ADENTRO DE URL 
-        //console.log('aca hago el map de url :' , allUrlData)
 
-        const allUrlDataResponse = await Promise.all(allUrlData); //TAMBIEN PUEDO USAR PROMISE.ALL QUE EQUIVALE AXIOS.ALL
-        //console.log('aca hago el axios.all: ' , allUrlDataResponse) //trae tanto url como results
+        const apiResponse = await axios.get('http://localhost:3001/home')
+        const pokemonsData = apiResponse.data.pokemonData;
+        const dataDb = apiResponse.data.dbData;
 
-        const allPokemonData = allUrlDataResponse.map((responseData) => ({  // asigno valores a las propiedas
-                name: responseData.data.name,
-                image: responseData.data.sprites.front_default,
-                id: responseData.data.id
-        }))
+
+        const allUrlData = pokemonsData.map((pokemons) => (pokemons.url));
+
+        let allUrlDataResponse = [];
+        await Promise.all(allUrlData.map(async (url) => {
+                try {
+                        const { data } = await axios.get(url)
+
+                        allUrlDataResponse.push(data)
+
+                } catch (error) {
+                        throw new Error('No fue posible realizar la petición')
+                }
+        }));
+        let urlData = [];
+        allUrlDataResponse.map((pokemon) => urlData.push(
+                {
+                        name: pokemon.name,
+                        image: pokemon.sprites.front_default,
+                        id: pokemon.id,
+                }
+        ))
+
 
 
         dispatch({
                 type: GET_POKEMONS,
-                payload: allPokemonData,
+                payload: { pokemonData: urlData, dbData: dataDb }
         })
 
 }
@@ -37,15 +53,17 @@ export const SEARCHPOKEMON = (name) => async (dispatch) => {
                 if (searchResponse && searchResponse.data) {
                         dispatch({
                                 type: SEARCH_POKEMON,
-                                payload: searchResponse.data
+                                payload:
+                                        searchResponse.data,
+                                // dbResponse: searchResponse.data.dbResponse
                         })
 
                 }
-                console.log("me llega esta respuesta", searchResponse)
+                // console.log("me llega esta respuesta", searchResponse)
 
 
         } catch (error) {
-                alert('error al buscar!')
+                alert('error on search!')
         }
 
 }
@@ -53,39 +71,53 @@ export const SEARCHPOKEMON = (name) => async (dispatch) => {
 export const POKEMONDETAIL = (id) => async (dispatch) => {
         try {
                 const detailData = await axios.get(`http://localhost:3001/detail/${id}`)
-                const detailResponse = detailData.data.apiData
-            
                 
-                
+                const detailResponse = detailData.data
+             
+
+
+
                 if (detailResponse) {
-                    dispatch({
+                        dispatch({
                                 type: POKEMON_DETAIL,
                                 payload: detailResponse
                         })
                 }
         } catch (error) {
-                alert('error al cargar detalle!')
+                alert('Error loading pokemon detail!')
         }
-        
-        
+
+
 }
-/* 
-pokemonDetail.id,
-pokemonDetail.name,
-pokemonDetail.sprites.front_default,
-pokemonDetail.height,
-pokemonDetail.weight,
-pokemonDetail.stats.map((statsResponse)=>({
-        name: statsResponse.stat.name,
-        value: statsResponse.base_stat
-})),
-pokemonDetail.types.map((typeResponse)=>({
-        name: typeResponse.type.name
-})) 
+
+export const CREATEPOKEMON = (formData) => async (dispatch) => {
+
+        try {
+                const createData = await axios.post(`http://localhost:3001/add`, formData)
+
+
+                dispatch({
+                        type: CREATE_POKEMON,
+                        payload: createData.data
+                })
+
+
+        } catch (error) {
+
+                alert('Can`t create pokemon')
+
+        }
+}
+
+export const FILTERPOKEMONORDER = (order) => {
+        return {
+                type: FILTER_POKEMON_ORDER,
+                payload: order
+        }
+
+}
 
 
 
-})) */
-
-//para crear propiedad conviene map  en la action 
+//para crear propiedad conviene map  en la action
 // para solo renderizar conviene map en el jsx

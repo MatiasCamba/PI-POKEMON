@@ -9,7 +9,7 @@ import React from 'react'
 const CardContainer = () => {
     const dispatch = useDispatch();
     const pokemons = useSelector((state) => state.pokemons);
-   
+    
 
     useEffect(()=>{
         dispatch(GETPOKEMONS())
@@ -17,10 +17,16 @@ const CardContainer = () => {
 
     return (
         <div className='card-container'>
-            {pokemons?.map((pokemon) => {
+            {pokemons.pokemonData?.map((pokemon) => {
                 return <Card 
                 key={pokemon?.name} 
-                pokemon={pokemon} />
+                pokemonApi={pokemon} />
+            })}
+            {pokemons.dbData?.map((pokemon)=>{
+                return <Card 
+                key={pokemon?.name}
+                pokemonDb={pokemon}
+                />
             })}
         </div>
     )

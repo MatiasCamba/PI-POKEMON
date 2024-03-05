@@ -1,34 +1,35 @@
 import React from 'react'
 import { useState } from 'react'
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { SEARCHPOKEMON } from '../../redux/actions/actions'
 import './SearchBar.css'
+import FilterOptions from '../Filters/FilterOptions'
 
 
 const SearchBar = () => {
-    const [name, setName] = useState('')
-    const dispatch = useDispatch();
+  const [name, setName] = useState('')
+  const dispatch = useDispatch();
 
-    const handleSearch = () => {
-        dispatch(SEARCHPOKEMON(name))
-    }
+  const handleSearch = () => {
+    dispatch(SEARCHPOKEMON(name))
+  }
 
   return (
     <div className='searchBar-container'>
-        <input type="text" 
-                placeholder='Buscar Pokemon'
-                value={name}
-                onChange={(e)=> setName(e.target.value)}
-        />
-        <button onClick={handleSearch}>Buscar</button>
+      <input className='searchInput' type="text"
+        placeholder='Search Pokemon'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button onClick={handleSearch}>Search</button>
 
 
-      {/*   {pokemon.dbResponse?.map((objeto)=>{
-          return <Card key={objeto} name={objeto}/>
-        })} */}
+      <aside>
+        <FilterOptions />
+      </aside>
 
-        
-       
+
+
     </div>
   )
 }

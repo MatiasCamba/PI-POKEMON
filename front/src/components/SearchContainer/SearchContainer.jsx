@@ -10,8 +10,9 @@ const SearchContainer = () => {
         <div className='card-container'>
 
             {pokemon?.map((pokemon, index) => {
+               
 
-                return <SearchCard key={index} pokemonSearchBar={pokemon.apiData} />
+                return <SearchCard key={index} pokemonSearchBar={pokemon.apiData}/>
             })}
 
         </div>

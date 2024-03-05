@@ -22,25 +22,38 @@ exports.getPokemons = async (req, res) => {
 }
 
 exports.getPokemonsById = async (req, res) => {
-    const { id, idPokemon } = req.params;
+    const { id } = req.params;
 
 
     try {
+        if (Number(id)) {
+            const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+            const apiData = apiResponse.data;
+            const apiDataUpdate = {
+                id: apiData.id,
+                name: apiData.name,
+                image: apiData.sprites.front_default,
+                hp: apiData.stats[0].base_stat,
+                attack: apiData.stats[1].base_stat,
+                defense: apiData.stats[2].base_stat,
+                speed: apiData.stats[5].base_stat,
+                height: apiData.height,
+                weight: apiData.weight,
+                types: apiData.types.map((element) => {
+                    return element.type.name
+                })
+            }
 
-        const apiResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-        const apiData = apiResponse.data;
 
-        console.log("asi llega la api:", apiData);
+            return res.status(200).json(apiDataUpdate);
+        } else {
 
+            const bdData = await Pokemon.findByPk(id, {
+                include: { model: Type },
+            })
 
-        const bdData = await Pokemon.findByPk(idPokemon, {
-            include: { model: Type },
-        })
-
-        console.log("asi llega la bd data:", bdData);
-
-
-        res.status(200).json({ bdData, apiData });
+            return res.status(200).json(bdData);
+        }
 
 
 
@@ -77,14 +90,14 @@ exports.getPokemonsByName = async (req, res) => {
             name: apiResponse.data.name,
             image: apiResponse.data.sprites.front_default,
             id: apiResponse.data.id
-        } 
+        }
 
 
 
     } catch (error) {
-       
+
         if (error.response && error.response.status === 404) {
-            apiData = null; 
+            apiData = null;
         } else {
 
             return res.status(500).json({ error: 'Error al recibir datos de la api.' });
@@ -103,23 +116,31 @@ exports.getPokemonsByName = async (req, res) => {
 
 
 exports.createPokemon = async (req, res) => {
-    const { name, hp, def, speed, height, weight, typeName } = req.body;
+    const { name, image, hp, attack, defense, speed, height, weight, types } = req.body;
+
 
 
     try {
         const created = await Pokemon.create({
             name,
+            image,
             hp,
-            def,
+            attack,
+            defense,
             speed,
             height,
             weight,
 
         })
-        // lograr entrar al type , dentro acceder al name y pasarlo al addType
-        const allType = await Type.findOne({ where: { name: typeName } })
 
-        const TypeId = allType.id
+        const allType = await Promise.all(types.map((type) => Type.findOne({ where: { name: type } })))
+
+        console.log('all type', allType)
+        // lograr entrar al type , dentro acceder al name y pasarlo al addType
+
+
+        const TypeId = allType.map((type) => type.dataValues.id)
+        console.log('mi type id:', TypeId)
 
         await created.addType(TypeId);
         const createdPokemon = await Pokemon.findOne({ where: { name } }, {
@@ -139,7 +160,9 @@ exports.createPokemon = async (req, res) => {
         }
 
     } catch (error) {
-        res.status(500).json({ error: 'fallo la peticion!' })
+        res.status(500).json({ error: error.message })
     }
 }
+
+
 

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import './Card.css'
 
 const SearchCard = ({ pokemonSearchBar }) => {
-  console.log("mi searchCard:", pokemonSearchBar)
+
+
   return (
     <div className='card-container'>
       <div className='card-logo'>
@@ -14,8 +15,12 @@ const SearchCard = ({ pokemonSearchBar }) => {
         <Link to={`/detail/${pokemonSearchBar?.id}`}>
           <h2>{pokemonSearchBar?.name}</h2>
         </Link>
+       {/*    {dbResponse && (
+          <Link to={`/detail/${dbResponse?.id}`}>
+            <h2>{dbResponse?.name}</h2>
+          </Link>)} */}
       </div>
-
+          
 
 
 
