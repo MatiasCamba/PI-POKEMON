@@ -1,13 +1,14 @@
 import React from 'react'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { CREATEPOKEMON } from '../../redux/actions/actions'
+import { useState , useEffect } from 'react'
+import { useDispatch, useSelector} from 'react-redux'
+import { CREATEPOKEMON, POKEMONTYPES } from '../../redux/actions/actions'
 import { nameValidation, imageValidation, statsValidation, typeValidation } from './Validations'
 import './Form.css'
 
 const Form = () => {
 
   const dispatch = useDispatch();
+  const pokemonsTypes = useSelector((state)=> state.pokemonsTypes);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -20,8 +21,13 @@ const Form = () => {
     weight: '',
     types: [],
   })
+useEffect(()=>{
 
-  const handleTypes = (e) => {
+  dispatch(POKEMONTYPES())
+
+},[]);
+
+/*   const handleTypes = (e) => {
 
     const { name, checked } = e.target;
 
@@ -37,7 +43,7 @@ const Form = () => {
       }))
     }
 
-  }
+  } */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -68,14 +74,14 @@ const Form = () => {
     }
 
     dispatch(CREATEPOKEMON(formData))
-    console.log('me llega form data:', formData)
+   
   }
 
 
   return (
-    <>
-      <h1> <strong>Crea tu Pokemon!</strong></h1>
+    <div className='form-container'>
       <form onSubmit={handleSubmit}>
+      <h1> <strong>Crea tu Pokemon!</strong></h1>
 
         <label htmlFor="name">Name:</label>
         <input type="text" id='name' name='name' onChange={handleInputChange} value={formData.name} /> <br />
@@ -102,16 +108,25 @@ const Form = () => {
         <input type="text" id='weight' name='weight' onChange={handleInputChange} value={formData.weight} /> <br />
 
         <label>Types:</label>
-        <input type="checkbox" name='fire' onChange={handleTypes} />Fire
+        {
+
+          pokemonsTypes?.map((type)=>(
+            <div className='div-types' key={type?.name}>
+            <input type='checkbox' name={type?.name} /> {type?.name}
+            </div>
+          ))
+        }
+        
+    {/*     <input type="checkbox" name='fire' onChange={handleTypes} />Fire
         <input type="checkbox" name='water' onChange={handleTypes} />Water
         <input type="checkbox" name='grass' onChange={handleTypes} />Grass
         <input type="checkbox" name='poison' onChange={handleTypes} />Poison
-        <input type="checkbox" name='fighting' onChange={handleTypes} />Fighting
+        <input type="checkbox" name='fighting' onChange={handleTypes} />Fighting */}
 
         <hr />
         <button type='submit'>Create Pokemon</button>
       </form>
-    </>
+    </div>
   )
 }
 

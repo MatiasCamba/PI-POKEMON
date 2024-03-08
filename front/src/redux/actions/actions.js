@@ -3,6 +3,7 @@ export const SEARCH_POKEMON = 'SEARCHPOKEMON';
 export const POKEMON_DETAIL = 'POKEMONDETAIL';
 export const CREATE_POKEMON = 'CREATEPOKEMON';
 export const FILTER_POKEMON_ORDER = 'FILTERPOKEMONORDER'
+export const POKEMON_TYPES = 'POKEMONTYPES'
 
 import axios, { all } from 'axios';
 
@@ -13,7 +14,13 @@ export const GETPOKEMONS = () => async (dispatch) => {
         const apiResponse = await axios.get('http://localhost:3001/home')
         const pokemonsData = apiResponse.data.pokemonData;
         const dataDb = apiResponse.data.dbData;
-
+        let newDataDb = []
+        dataDb.map((pokemon) => newDataDb.push(
+                {
+                        ...pokemon,
+                        origin: "DB"
+                }
+        ))
 
         const allUrlData = pokemonsData.map((pokemons) => (pokemons.url));
 
@@ -34,6 +41,7 @@ export const GETPOKEMONS = () => async (dispatch) => {
                         name: pokemon.name,
                         image: pokemon.sprites.front_default,
                         id: pokemon.id,
+                        origin: "API"
                 }
         ))
 
@@ -41,7 +49,7 @@ export const GETPOKEMONS = () => async (dispatch) => {
 
         dispatch({
                 type: GET_POKEMONS,
-                payload: { pokemonData: urlData, dbData: dataDb }
+                payload: { pokemonData: urlData, dbData: newDataDb }
         })
 
 }
@@ -49,20 +57,46 @@ export const GETPOKEMONS = () => async (dispatch) => {
 export const SEARCHPOKEMON = (name) => async (dispatch) => {
         try {
                 const searchResponse = await axios.get(`http://localhost:3001/name?name=${name}`)
+                let searchApi;
+                let searchDb;
 
-                if (searchResponse && searchResponse.data) {
-                        dispatch({
-                                type: SEARCH_POKEMON,
-                                payload:
-                                        searchResponse.data,
-                                // dbResponse: searchResponse.data.dbResponse
-                        })
+                if (searchResponse.data.apiData !== null) {
+                        searchApi = {
+                                ...searchResponse.data.apiData,
+                                origin: 'API'
+                        }
 
                 }
-                // console.log("me llega esta respuesta", searchResponse)
+                if (searchResponse.data.dbResponse.length > 0) {
 
+                        searchDb = searchResponse.data.dbResponse.map((pokemon) => ({
+                                ...pokemon,
+                                origin: 'DB'
+                        })
+                        )
+                }
+
+                if (searchApi !== undefined && searchDb !== undefined) {
+
+                        dispatch({
+                                type: SEARCH_POKEMON,
+                                payload: [searchApi, searchDb[0]]
+                        })
+
+                } else if (searchDb !== undefined) {
+                        dispatch({
+                                type: SEARCH_POKEMON,
+                                payload: searchDb[0]
+                        })
+                } else if (searchApi !== undefined) {
+                        dispatch({
+                                type: SEARCH_POKEMON,
+                                payload: searchApi
+                        })
+                }
 
         } catch (error) {
+
                 alert('error on search!')
         }
 
@@ -71,9 +105,9 @@ export const SEARCHPOKEMON = (name) => async (dispatch) => {
 export const POKEMONDETAIL = (id) => async (dispatch) => {
         try {
                 const detailData = await axios.get(`http://localhost:3001/detail/${id}`)
-                
+
                 const detailResponse = detailData.data
-             
+
 
 
 
@@ -101,6 +135,9 @@ export const CREATEPOKEMON = (formData) => async (dispatch) => {
                         payload: createData.data
                 })
 
+                if (createData) {
+                        alert('Pokemon creado!')
+                }
 
         } catch (error) {
 
@@ -117,6 +154,19 @@ export const FILTERPOKEMONORDER = (order) => {
 
 }
 
+export const POKEMONTYPES = () => async (dispatch)=> {
+        try {
+                const {data} = await axios.get('https://pokeapi.co/api/v2/type')
+                
+                dispatch( {
+                        type: POKEMON_TYPES,
+                        payload : data.results
+                })
+
+        } catch (error) {
+                alert('error al recuperar tipos de pokemon')
+        }
+}
 
 
 //para crear propiedad conviene map  en la action

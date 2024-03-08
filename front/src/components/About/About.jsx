@@ -2,7 +2,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <div>SOY EL ABOUT</div>
+    <div>This is a Pokemon Data base Project</div>
   )
 }
 

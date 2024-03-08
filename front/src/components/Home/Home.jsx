@@ -5,18 +5,14 @@ import SearchContainer from '../SearchContainer/SearchContainer'
 
 
 
-
-
 const Home = () => {
-
 
   return (
     <>
     <SearchBar /> 
     <hr />
     <SearchContainer />
-    <CardContainer/>  
-    
+    <CardContainer />  
   </>
   )
 }

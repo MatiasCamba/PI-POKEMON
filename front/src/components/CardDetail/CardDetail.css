@@ -1,11 +1,10 @@
-/* CardDetail.css */
 
 .cardDetail-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* Centra verticalmente */
-    background-color: #213547; /* Color de fondo */
+    min-height: 100vh; 
+    background-color: #213547; 
   }
   
   .cardDetail {
@@ -26,7 +25,8 @@
     max-width: 100%;
     border-radius: 5px;
     box-shadow: 20px 2px 4px rgba(187, 222, 9, 0.1);
-    height: 120px;
+    height: 150px;
+ 
   }
   
   .cardDetail p {

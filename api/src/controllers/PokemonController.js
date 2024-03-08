@@ -8,7 +8,7 @@ const { Op } = require('sequelize');
 
 exports.getPokemons = async (req, res) => {
     try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon');
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=80');
         const pokemonData = response.data.results;
         console.log('me llega la data de la api:', pokemonData)
         const dbData = await Pokemon.findAll()
@@ -40,7 +40,7 @@ exports.getPokemonsById = async (req, res) => {
                 height: apiData.height,
                 weight: apiData.weight,
                 types: apiData.types.map((element) => {
-                    return element.type.name
+                    return element.type
                 })
             }
 
@@ -75,10 +75,12 @@ exports.getPokemonsByName = async (req, res) => {
             where: {
                 name: {
                     [Op.iLike]: `%${nameApi}%`,
-                } //true
+                } 
             }
         });
+      
     } catch (error) {
+        
         return res.status(500).json({ error: 'Error al recibir datos de la base de datos.' });
     }
 
@@ -135,12 +137,12 @@ exports.createPokemon = async (req, res) => {
 
         const allType = await Promise.all(types.map((type) => Type.findOne({ where: { name: type } })))
 
-        console.log('all type', allType)
+        
         // lograr entrar al type , dentro acceder al name y pasarlo al addType
 
 
         const TypeId = allType.map((type) => type.dataValues.id)
-        console.log('mi type id:', TypeId)
+        
 
         await created.addType(TypeId);
         const createdPokemon = await Pokemon.findOne({ where: { name } }, {

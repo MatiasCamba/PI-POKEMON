@@ -3,6 +3,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    background-color: #213547;
   }
   
  
@@ -10,18 +11,28 @@
     flex: 0 1 calc(16.666% - 20px); 
     margin-bottom: 20px;
     padding: 20px;
-    border: 1px solid #ed0d0d;
+    border: 1px solid goldenrod;
     border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #f8e076;
+    box-shadow: 2px 3px 3.5px rgb(255, 102, 102);
+    background-color: #e5dc6ff5;
+  
   }
 
+  .card-container div img {
+    width: 100px;
+    height: 95px;
+  }
   
 
   .card-container .card-content h2 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-top: 10px;
     color: #333;
+  }
+  .card-container .card-content h3 {
+    color: rgb(50, 45, 45);
+    font-size: 1.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   }
 
 

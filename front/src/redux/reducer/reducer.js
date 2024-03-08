@@ -1,5 +1,5 @@
 //importar actions
-import { CREATE_POKEMON, GET_POKEMONS } from '../actions/actions'
+import { CREATE_POKEMON, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
 import { SEARCH_POKEMON } from '../actions/actions'
 import { POKEMON_DETAIL } from '../actions/actions'
 import { FILTER_POKEMON_ORDER } from '../actions/actions'
@@ -8,7 +8,8 @@ const initialState = {
     pokemons: {},
     pokemonsBySearch: [],
     pokemonDetail: [],
-    pokemonsFiltered: {}
+    pokemonsFiltered: {},
+    pokemonsTypes : [],
 }
 
 
@@ -22,23 +23,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 pokemons: payload
             }
         case SEARCH_POKEMON:
-            return {
-                ...state,
-                pokemonsBySearch: [...state.pokemonsBySearch,payload]
+            
+            if(Array.isArray(payload)){
+                return {
+                    ...state,
+                    pokemonsBySearch : [...state.pokemonsBySearch.concat(payload)]
+                }
+            }else{
+                return {
+                    ...state,
+                    pokemonsBySearch: [...state.pokemonsBySearch,payload]
+                }
             }
-
+         
+            
         case POKEMON_DETAIL:
             return {
                 ...state,
                 pokemonDetail: payload,
             }
         
- /*        case CREATE_POKEMON:
-            return{
-                ...state,
-                pokemonCreated: payload
-            }
- */ 
             case FILTER_POKEMON_ORDER : 
             let filterByOrder = {...state.pokemons}
             let filteredPokemons;
@@ -59,12 +63,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     pokemons: {pokemonData:filteredPokemons},
                    
                 }
+        case POKEMON_TYPES : 
+        return {
+            ...state,
+            pokemonsTypes : payload,
+        }
 
         default: return {
             ...state
         }
+
     }
 }
+
 
 
 

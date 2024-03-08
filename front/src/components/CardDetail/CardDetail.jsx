@@ -21,22 +21,23 @@ const CardDetail = () => {
       {pokemonDetail ? (
         <div className='cardDetail-container'>
           <div className='cardDetail'>
-            <h1 >{pokemonDetail.name}</h1>
+            <h1 >{pokemonDetail?.name}</h1>
             <hr />
-            <img src={pokemonDetail.image} alt={`imagen de ${pokemonDetail.name}`} />
-            <h2>{pokemonDetail.id}</h2>
+            <img src={pokemonDetail?.image} alt={`imagen de ${pokemonDetail?.name}`} />
+            <h2>{pokemonDetail?.id}</h2>
             <hr />
-            <p><strong>Hp:</strong>:{pokemonDetail.hp}</p>
-            <p><strong>Attack</strong>:{pokemonDetail.attack}</p>
-            <p><strong>Defense</strong>:{pokemonDetail.defense}</p>
-            <p><strong>Speed</strong>:{pokemonDetail.speed}</p>
-            <p><strong>Height</strong>:{pokemonDetail.height}</p>
-            <p><strong>Weight</strong>:{pokemonDetail.weight}</p>
+            <p><strong>Hp:</strong>:{pokemonDetail?.hp}</p>
+            <p><strong>Attack</strong>:{pokemonDetail?.attack}</p>
+            <p><strong>Defense</strong>:{pokemonDetail?.defense}</p>
+            <p><strong>Speed</strong>:{pokemonDetail?.speed}</p>
+            <p><strong>Height</strong>:{pokemonDetail?.height}</p>
+            <p><strong>Weight</strong>:{pokemonDetail?.weight}</p>
             <hr />
-            {pokemonDetail.types?.map((typeResponse, index) => (
-              <p key={index} className='pokemon-types'> Types: {typeResponse}</p>
+            {pokemonDetail?.types?.map((typeResponse, index) => (
+              <p key={index} className='pokemon-types'> Types: {typeResponse.name}</p>
               
             ))}
+            
           </div>
         </div>
       ) : (

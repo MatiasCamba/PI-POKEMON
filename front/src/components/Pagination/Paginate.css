@@ -1,0 +1,27 @@
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px; 
+    background-color: #ffcc00;
+    border-top: 3px solid black;
+  }
+  
+  .page-link {
+    text-decoration: none;
+    color: #333; 
+    transition: color 0.3s;
+    font-weight: bold;
+    font-size: 20px; 
+    cursor: pointer; 
+  }
+  
+  .page-link:hover {
+    color: #f40a0a; 
+  }
+  
+  .page-link.active {
+    font-weight: bold;
+    color: #000; 
+  }
+  
