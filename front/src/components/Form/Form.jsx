@@ -27,7 +27,7 @@ useEffect(()=>{
 
 },[]);
 
-/*   const handleTypes = (e) => {
+   const handleTypes = (e) => {
 
     const { name, checked } = e.target;
 
@@ -43,7 +43,7 @@ useEffect(()=>{
       }))
     }
 
-  } */
+  } 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -65,13 +65,14 @@ useEffect(()=>{
       return
     }
 
-    if (!statsValidation(formData.hp) || !statsValidation(formData.attack) || !statsValidation(formData.defense)) {
-      alert('Error on stats field (HP,ATTACK OR DEFENSE)')
+    if (!statsValidation(formData.hp) || !statsValidation(formData.attack) || !statsValidation(formData.defense) || !statsValidation(formData.speed) || !statsValidation(formData.height)||!statsValidation(formData.weight)) {
+      alert('Error on stats field (HP,ATTACK, SPEED, HEIGHT OR WEIGHT)')
       return
     }
     if(!typeValidation(formData.types)){
-      alert('You must select a correct pokemon type!')
-    }
+      alert('You must select at least one pokemon type!')
+      return
+    } 
 
     dispatch(CREATEPOKEMON(formData))
    
@@ -112,16 +113,11 @@ useEffect(()=>{
 
           pokemonsTypes?.map((type)=>(
             <div className='div-types' key={type?.name}>
-            <input type='checkbox' name={type?.name} /> {type?.name}
+              <label htmlFor={type?.name}></label>
+               <input type='checkbox' name={type?.name} onChange={handleTypes} value={type?.name}/> {type?.name}
             </div>
           ))
         }
-        
-    {/*     <input type="checkbox" name='fire' onChange={handleTypes} />Fire
-        <input type="checkbox" name='water' onChange={handleTypes} />Water
-        <input type="checkbox" name='grass' onChange={handleTypes} />Grass
-        <input type="checkbox" name='poison' onChange={handleTypes} />Poison
-        <input type="checkbox" name='fighting' onChange={handleTypes} />Fighting */}
 
         <hr />
         <button type='submit'>Create Pokemon</button>

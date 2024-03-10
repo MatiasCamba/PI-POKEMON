@@ -10,7 +10,7 @@ exports.getPokemonTypes = async (req, res) => {
         
         const dbTypeData = apiTypeData.data.results
        
-        
+    
         
         
         await Promise.all(dbTypeData.map( (type) => {

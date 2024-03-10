@@ -8,11 +8,11 @@ const { Op } = require('sequelize');
 
 exports.getPokemons = async (req, res) => {
     try {
-        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=80');
+        const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=65');
         const pokemonData = response.data.results;
-        console.log('me llega la data de la api:', pokemonData)
+      
         const dbData = await Pokemon.findAll()
-        console.log('me llega la data de la db:', dbData)
+     
         res.status(200).json({ pokemonData, dbData });
 
     } catch (error) {

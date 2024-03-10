@@ -4,6 +4,7 @@ import SearchCard from '../Card/SearchCard'
 
 const SearchContainer = () => {
     const pokemonsBySearch = useSelector((state) => state.pokemonsBySearch)
+    
 
 
  

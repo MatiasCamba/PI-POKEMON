@@ -8,15 +8,17 @@ import React from 'react'
 
 const CardContainer = () => {
     const pokemons = useSelector((state) => state.pokemons);
+    
     const dispatch = useDispatch();
-
+    
     useEffect(() => {
         dispatch(GETPOKEMONS())
     }, []);
-
+    
     const [pokemonsPerPage] = useState(12);
     const [currentPage, setCurrentPage] = useState(1);
     const allPokemons = pokemons?.pokemonData?.concat(pokemons.dbData);
+    
 
 
 
@@ -32,9 +34,9 @@ const CardContainer = () => {
         <>
             <div className='card-container'>
                 {currentPokemons?.map((pokemons) => {
-                    if (pokemons.origin === 'API') {
+                    if (pokemons?.origin === 'API') {
                         return <Card key={pokemons?.name} pokemonApi={pokemons} />;
-                    } else if (pokemons.origin === 'DB') {
+                    } else if (pokemons?.origin === 'DB') {
                         return <Card key={pokemons?.name} pokemonDb={pokemons} />;
                     }
                     return null;

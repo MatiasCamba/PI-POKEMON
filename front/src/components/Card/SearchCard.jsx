@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Card.css'
 
 const SearchCard = ({ pokemonSearchBarApi, pokemonSearchBarDb }) => {
+   
 
 
   return (

@@ -33,8 +33,8 @@ const CardDetail = () => {
             <p><strong>Height</strong>:{pokemonDetail?.height}</p>
             <p><strong>Weight</strong>:{pokemonDetail?.weight}</p>
             <hr />
-            {pokemonDetail?.types?.map((typeResponse, index) => (
-              <p key={index} className='pokemon-types'> Types: {typeResponse.name}</p>
+            {pokemonDetail.types?.map((typeResponse, index) => (
+              <p key={index} className='pokemon-types'> Types: {typeResponse?.name}</p>
               
             ))}
             

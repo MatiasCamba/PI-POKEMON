@@ -3,7 +3,8 @@ export const SEARCH_POKEMON = 'SEARCHPOKEMON';
 export const POKEMON_DETAIL = 'POKEMONDETAIL';
 export const CREATE_POKEMON = 'CREATEPOKEMON';
 export const FILTER_POKEMON_ORDER = 'FILTERPOKEMONORDER'
-export const POKEMON_TYPES = 'POKEMONTYPES'
+export const POKEMON_TYPES = 'POKEMONTYPES';
+export const FILTER_POKEMON_ORIGIN = 'FILTERPOKEMONORIGIN';
 
 import axios, { all } from 'axios';
 
@@ -16,9 +17,11 @@ export const GETPOKEMONS = () => async (dispatch) => {
         const dataDb = apiResponse.data.dbData;
         let newDataDb = []
         dataDb.map((pokemon) => newDataDb.push(
+
                 {
                         ...pokemon,
-                        origin: "DB"
+                        origin: "DB",
+
                 }
         ))
 
@@ -57,6 +60,7 @@ export const GETPOKEMONS = () => async (dispatch) => {
 export const SEARCHPOKEMON = (name) => async (dispatch) => {
         try {
                 const searchResponse = await axios.get(`http://localhost:3001/name?name=${name}`)
+
                 let searchApi;
                 let searchDb;
 
@@ -76,8 +80,8 @@ export const SEARCHPOKEMON = (name) => async (dispatch) => {
                         )
                 }
 
-                if (searchApi !== undefined && searchDb !== undefined) {
 
+                if (searchApi !== undefined && searchDb !== undefined) {
                         dispatch({
                                 type: SEARCH_POKEMON,
                                 payload: [searchApi, searchDb[0]]
@@ -153,14 +157,20 @@ export const FILTERPOKEMONORDER = (order) => {
         }
 
 }
+export const FILTERPOKEMONORIGIN = (origin) => {
+        return {
+                type: FILTER_POKEMON_ORIGIN,
+                payload: origin
+        }
+}
 
-export const POKEMONTYPES = () => async (dispatch)=> {
+export const POKEMONTYPES = () => async (dispatch) => {
         try {
-                const {data} = await axios.get('https://pokeapi.co/api/v2/type')
-                
-                dispatch( {
+                const { data } = await axios.get('https://pokeapi.co/api/v2/type')
+
+                dispatch({
                         type: POKEMON_TYPES,
-                        payload : data.results
+                        payload: data.results
                 })
 
         } catch (error) {
@@ -168,6 +178,3 @@ export const POKEMONTYPES = () => async (dispatch)=> {
         }
 }
 
-
-//para crear propiedad conviene map  en la action
-// para solo renderizar conviene map en el jsx
