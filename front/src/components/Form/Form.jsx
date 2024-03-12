@@ -82,7 +82,7 @@ useEffect(()=>{
   return (
     <div className='form-container'>
       <form onSubmit={handleSubmit}>
-      <h1> <strong>Crea tu Pokemon!</strong></h1>
+      <h1> <strong>Create your own Pokemon!</strong></h1>
 
         <label htmlFor="name">Name:</label>
         <input type="text" id='name' name='name' onChange={handleInputChange} value={formData.name} /> <br />
@@ -107,7 +107,7 @@ useEffect(()=>{
 
         <label htmlFor="weight">Weight:</label>
         <input type="text" id='weight' name='weight' onChange={handleInputChange} value={formData.weight} /> <br />
-
+        <hr />
         <label>Types:</label>
         {
 

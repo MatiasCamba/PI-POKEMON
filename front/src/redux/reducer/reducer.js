@@ -1,11 +1,12 @@
 //importar actions
-import { CREATE_POKEMON, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
+import { CREATE_POKEMON, FILTER_BY_TYPE, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
 import { SEARCH_POKEMON } from '../actions/actions'
 import { POKEMON_DETAIL } from '../actions/actions'
 import { FILTER_POKEMON_ORDER } from '../actions/actions'
 
 const initialState = {
-    pokemons: {},
+    pokemons: {}, //RENDERIZAR
+    pokemonsBackup: [], // MODIFICAR ()
     pokemonsBySearch: [],
     pokemonDetail: [],
     pokemonsTypes: [],
@@ -19,7 +20,9 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
             return {
                 ...state,
-                pokemons: payload
+                pokemons: payload,
+                pokemonsBackup: payload,
+               
             }
 
 
@@ -49,7 +52,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
             let filterByOrder = { ...state.pokemons }
             let filteredPokemons;
 
-            const filteredArray = filterByOrder.pokemonData.concat(filterByOrder.dbData);
+            const filteredArray = filterByOrder.pokemonData?.concat(filterByOrder?.dbData);
 
             if (payload === 'ascending') {
                 filteredPokemons = filteredArray.sort((a, b) => a.name.localeCompare(b.name))
@@ -68,25 +71,35 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 
         case FILTER_POKEMON_ORIGIN:
-            let filterByOrigin = { ...state.pokemons }
-            let filteredOrigin;
-            //const allFilterArray = filterByOrigin.pokemonData.concat(filterByOrigin.dbData);
+            let filterOrigin = { ...state.pokemonsBackup }
+           
+            
 
-            if (payload === 'API') {
-                filteredOrigin = filterByOrigin.pokemonData?.filter(pokemon => pokemon?.origin === 'API')
+            const filterByApi = filterOrigin.pokemonData?.filter((pokemon) => pokemon?.origin === payload)
+            const filterByDb = filterOrigin.dbData?.filter((pokemon) => pokemon?.origin === payload)
+        
+            if(payload === 'ALL'){
+                return{
+                    ...state,
+                    pokemons : state.pokemonsBackup
+                }
+            } 
+
+            if(payload === 'DB'){
                 return {
                     ...state,
-                    pokemons: { ...filterByOrigin,pokemonData: filteredOrigin }
+                    pokemons : {pokemonData: [], dbData : filterByDb}
                 }
-            } else if (payload === 'DB') {
-                filteredOrigin = filterByOrigin.dbData?.filter(pokemon => pokemon?.origin === 'DB')
-                return {
+
+            } if(payload ==='API'){
+                return{
                     ...state,
-                    pokemons: { ...filterByOrigin,pokemonData: filteredOrigin }
+                    pokemons : {pokemonData : filterByApi, dbData: filterByDb}
                 }
-            } else {
-                return state
             }
+
+
+        case FILTER_BY_TYPE:
 
 
         case POKEMON_TYPES:

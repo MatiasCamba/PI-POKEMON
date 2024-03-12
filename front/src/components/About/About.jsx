@@ -12,8 +12,8 @@ const About = () => {
   return (
     
       <div className='about-Container'>
-      <h2 className='about-text'>Soy Matías Camba</h2>
-      <p className='about-text'>Realicé este proyecto utilizando principalmente estas tecnologías:</p>
+      <h2 className='about-text'>I´m Matías Camba</h2>
+      <p className='about-text'>I made this project using mainly this technologies:</p>
       <hr />
       <div className="technologies-Container">
         <img src={htmlLogo} alt="logo de HTML" />
@@ -23,7 +23,7 @@ const About = () => {
         <img src={sqlLogo} alt="logo de sql" />
       </div>
       <hr />
-      <h3 className='about-text'>Mis redes sociales:</h3>
+      <h3 className='about-text'>My social networks:</h3>
       <div className='social-Container'>
       <a href="https://www.linkedin.com/in/matias-camba-597060128/">
         <img src={likedinLogo} alt="Logo de LinkedIn" />

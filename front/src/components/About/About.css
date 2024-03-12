@@ -25,11 +25,11 @@
   }
   
   .technologies-Container img {
-    width: 140px;
-    height: 100px;
+    width: 120px;
+    height: 130px;
     margin: 0 10px;
     border: 2px solid #f91010; 
-    border-radius: 5px; 
+    border-radius: 15px; 
     transition: transform 0.3s ease;
   }
   
@@ -51,7 +51,7 @@
     height: 100px;
     margin: 0 10px;
     border: 2px solid #f91010; 
-    border-radius: 5px; 
+    border-radius: 15px; 
     
   }
   

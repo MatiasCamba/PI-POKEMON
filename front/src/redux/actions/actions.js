@@ -5,6 +5,7 @@ export const CREATE_POKEMON = 'CREATEPOKEMON';
 export const FILTER_POKEMON_ORDER = 'FILTERPOKEMONORDER'
 export const POKEMON_TYPES = 'POKEMONTYPES';
 export const FILTER_POKEMON_ORIGIN = 'FILTERPOKEMONORIGIN';
+export const FILTER_BY_TYPE = 'FILTERBYTYPE';
 
 import axios, { all } from 'axios';
 
@@ -149,7 +150,12 @@ export const CREATEPOKEMON = (formData) => async (dispatch) => {
 
         }
 }
-
+export const FILTERBYTYPE = (type) => {
+        return {
+                type: FILTER_BY_TYPE,
+                payload: type
+        }
+}
 export const FILTERPOKEMONORDER = (order) => {
         return {
                 type: FILTER_POKEMON_ORDER,
@@ -158,6 +164,7 @@ export const FILTERPOKEMONORDER = (order) => {
 
 }
 export const FILTERPOKEMONORIGIN = (origin) => {
+        console.log('origin', origin)
         return {
                 type: FILTER_POKEMON_ORIGIN,
                 payload: origin

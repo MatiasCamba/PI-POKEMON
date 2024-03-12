@@ -119,6 +119,7 @@ exports.getPokemonsByName = async (req, res) => {
 
 exports.createPokemon = async (req, res) => {
     const { name, image, hp, attack, defense, speed, height, weight, types } = req.body;
+   
 
 
 
@@ -132,10 +133,10 @@ exports.createPokemon = async (req, res) => {
             speed,
             height,
             weight,
-
         })
 
         const allType = await Promise.all(types.map((type) => Type.findOne({ where: { name: type } })))
+       
 
         
         // lograr entrar al type , dentro acceder al name y pasarlo al addType
