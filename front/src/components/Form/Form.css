@@ -23,9 +23,7 @@ input[type="text"] {
     border: 1px solid #ffe30e;
     border-radius: 5px;
 }
-/* input[type="checkbox"] {
-    margin-right: 5px;
-} */
+
 button {
     background-color: #f31e1e;
     color: #fff;

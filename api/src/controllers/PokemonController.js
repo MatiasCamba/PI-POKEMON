@@ -16,7 +16,7 @@ exports.getPokemons = async (req, res) => {
         res.status(200).json({ pokemonData, dbData });
 
     } catch (error) {
-        res.status(500).json({ error: error.message || "Error al recibir los datos!" })
+        res.status(500).json({ error: error.message || "Error at receiving data!" })
     }
 
 }
@@ -59,7 +59,7 @@ exports.getPokemonsById = async (req, res) => {
 
 
     } catch (error) {
-        res.status(404).json({ error: "Error al recibir el id del pokemon!" })
+        res.status(404).json({ error: "Error at pokemon ID!" })
     }
 }
 
@@ -81,7 +81,7 @@ exports.getPokemonsByName = async (req, res) => {
       
     } catch (error) {
         
-        return res.status(500).json({ error: 'Error al recibir datos de la base de datos.' });
+        return res.status(500).json({ error: 'Error on receiving data from DB.' });
     }
 
 
@@ -102,14 +102,14 @@ exports.getPokemonsByName = async (req, res) => {
             apiData = null;
         } else {
 
-            return res.status(500).json({ error: 'Error al recibir datos de la api.' });
+            return res.status(500).json({ error: 'Error on receiving data from API.' });
         }
     } // IMPORTANTE
 
 
     if (dbResponse.length === 0 && !apiData) {
 
-        return res.status(400).json({ error: 'El Pokémon no existe en la API ni en la base de datos.' });
+        return res.status(400).json({ error: 'Pokemon does not exists neither on DB and API' });
 
     } else if (dbResponse.length > 0 || apiData) {
         return res.status(200).json({ dbResponse, apiData })
@@ -136,11 +136,6 @@ exports.createPokemon = async (req, res) => {
         })
 
         const allType = await Promise.all(types.map((type) => Type.findOne({ where: { name: type } })))
-       
-
-        
-        // lograr entrar al type , dentro acceder al name y pasarlo al addType
-
 
         const TypeId = allType.map((type) => type.dataValues.id)
         
@@ -159,7 +154,7 @@ exports.createPokemon = async (req, res) => {
         if (created) {
             res.status(200).json(createdPokemon);
         } else {
-            res.status(404).json({ error: 'No se pudo crear un nuevo pokemon , intenta de nuevo!' })
+            res.status(404).json({ error: 'Could not create pokemon , try again!' })
         }
 
     } catch (error) {

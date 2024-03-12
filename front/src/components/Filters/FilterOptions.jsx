@@ -2,7 +2,6 @@ import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { FILTERPOKEMONORDER } from '../../redux/actions/actions'
 import { FILTERPOKEMONORIGIN } from '../../redux/actions/actions'
-import { FILTERBYTYPE } from '../../redux/actions/actions'
 import { useState } from 'react'
 import './FilterOptions.css'
 
@@ -11,11 +10,6 @@ const FilterOptions = () => {
    
     const [filtered , setFiltered] = useState(true);
 
-    const handleFilterType = (e) => {
-      const {value} = e.target
-      dispatch(FILTERBYTYPE(value))
-      setFiltered(!filtered)
-    }
     
     const handleFilterOrigin = (e) => {
 
@@ -42,15 +36,11 @@ const FilterOptions = () => {
         <select name="filterOrigin" id="filterOrigin" onChange={handleFilterOrigin}>
 
           <option value="ALL">ALL</option>
-          <option value="API">API</option>
           <option value="DB">DB</option>
+          <option value="API">API</option>
 
         </select>
-        <select name="filterType" id="filterType" onChange={handleFilterType}>
-         
-       
-
-        </select>
+     
     </div>
   )
 }

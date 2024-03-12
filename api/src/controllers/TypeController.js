@@ -16,11 +16,11 @@ exports.getPokemonTypes = async (req, res) => {
         await Promise.all(dbTypeData.map( (type) => {
              Type.create({ name: type.name})
         }))
-        res.status(200).json({ message: 'Tipo de pokemon guardado!' })
+        res.status(200).json({ message: 'Pokemon types saved!' })
     }
 
     catch (error) {
-        res.status(404).json({ error: 'Fallo la obtencion de tipo de pokemon!' })
+        res.status(404).json({ error: 'Error con receiving pokemon types!' })
     }
 }
 

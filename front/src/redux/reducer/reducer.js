@@ -1,5 +1,5 @@
 //importar actions
-import { CREATE_POKEMON, FILTER_BY_TYPE, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
+import { CREATE_POKEMON, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
 import { SEARCH_POKEMON } from '../actions/actions'
 import { POKEMON_DETAIL } from '../actions/actions'
 import { FILTER_POKEMON_ORDER } from '../actions/actions'
@@ -98,8 +98,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 }
             }
 
-
-        case FILTER_BY_TYPE:
 
 
         case POKEMON_TYPES:
