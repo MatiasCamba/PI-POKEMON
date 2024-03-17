@@ -59,8 +59,8 @@ const FilterOptions = () => {
             
         </select>
         <select name="filterByAttack" id="filterByAttack" onChange={handleFilterAttack}>
-          <option value="attack-">Attack(ascending)</option>
-          <option value="attack+">Attack(descending)</option>
+          <option value="attack+">Attack(ascending)</option>
+          <option value="attack-">Attack(descending)</option>
         </select>
         <select name="filterOrigin" id="filterOrigin" onChange={handleFilterOrigin}>
 

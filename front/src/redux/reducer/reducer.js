@@ -157,7 +157,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
 
         case FILTER_POKEMON_BY_ATTACK:
-            const attack = { ...state.pokemons };
+
+            const filterAttack = { ...state.pokemonsBackup };
+
+
+            let filterAttackApi, filterAttackDb;
+
+            if (payload === 'attack-') {
+                filterAttackApi = filterAttack.pokemonData?.sort((a, b) => a.attack - b.attack)
+                filterAttackDb = filterAttack.dbData?.sort((a, b) => a.attack - b.attack)
+            }
+
+            if (payload === 'attack+') {
+                filterAttackApi = filterAttack.pokemonData?.sort((a, b) => b.attack - a.attack);
+                filterAttackDb = filterAttack.dbData?.sort((a, b) => b.attack - a.attack)
+            }
+
+            return {
+                ...state,
+                pokemons: { pokemonData: filterAttackApi, dbData: filterAttackDb }
+            }
 
 
 
