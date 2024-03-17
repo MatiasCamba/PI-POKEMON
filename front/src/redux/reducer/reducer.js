@@ -1,8 +1,10 @@
 //importar actions
-import { CREATE_POKEMON, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
+import { CREATE_POKEMON, FILTER_POKEMON_BY_ATTACK, FILTER_POKEMON_ORIGIN, GET_POKEMONS, POKEMON_TYPES } from '../actions/actions'
 import { SEARCH_POKEMON } from '../actions/actions'
 import { POKEMON_DETAIL } from '../actions/actions'
 import { FILTER_POKEMON_ORDER } from '../actions/actions'
+import { FILTER_POKEMON_TYPE } from '../actions/actions'
+import { REFRESH_POKEMON } from '../actions/actions'
 
 const initialState = {
     pokemons: {}, //RENDERIZAR
@@ -10,6 +12,8 @@ const initialState = {
     pokemonsBySearch: [],
     pokemonDetail: [],
     pokemonsTypes: [],
+    pokemonsTypeBackup: [],
+
 }
 
 
@@ -22,7 +26,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
                 ...state,
                 pokemons: payload,
                 pokemonsBackup: payload,
-               
+
             }
 
 
@@ -31,13 +35,23 @@ const rootReducer = (state = initialState, { type, payload }) => {
             if (Array.isArray(payload)) {
                 return {
                     ...state,
-                    pokemonsBySearch: [...state.pokemonsBySearch.concat(payload)]
+                    pokemonsBySearch: payload
+                    // pokemonsBySearch: [...state.pokemonsBySearch.concat(payload)]
+
                 }
             } else {
                 return {
                     ...state,
-                    pokemonsBySearch: [...state.pokemonsBySearch, payload]
+                    pokemonsBySearch: payload,
+                    // pokemonsBySearch: [...state.pokemonsBySearch, payload]
                 }
+            }
+
+        case REFRESH_POKEMON:
+
+            return {
+                ...state,
+                pokemonsBySearch: [],
             }
 
 
@@ -72,31 +86,79 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
         case FILTER_POKEMON_ORIGIN:
             let filterOrigin = { ...state.pokemonsBackup }
-           
-            
+
+
 
             const filterByApi = filterOrigin.pokemonData?.filter((pokemon) => pokemon?.origin === payload)
             const filterByDb = filterOrigin.dbData?.filter((pokemon) => pokemon?.origin === payload)
-        
-            if(payload === 'ALL'){
-                return{
-                    ...state,
-                    pokemons : state.pokemonsBackup
-                }
-            } 
 
-            if(payload === 'DB'){
+            if (payload === 'ALL') {
                 return {
                     ...state,
-                    pokemons : {pokemonData: [], dbData : filterByDb}
-                }
-
-            } if(payload ==='API'){
-                return{
-                    ...state,
-                    pokemons : {pokemonData : filterByApi, dbData: filterByDb}
+                    pokemons: state.pokemonsBackup
                 }
             }
+
+            if (payload === 'DB') {
+                return {
+                    ...state,
+                    pokemons: { pokemonData: [], dbData: filterByDb }
+                }
+
+            } if (payload === 'API') {
+                return {
+                    ...state,
+                    pokemons: { pokemonData: filterByApi, dbData: filterByDb }
+                }
+            }
+
+        case FILTER_POKEMON_TYPE:
+            console.log('payload', payload)
+            const copyPokemonTypes = { ...state.pokemonsBackup };
+
+
+
+            const filteredPokemonTypeApi = copyPokemonTypes.pokemonData?.filter((pokemons) => {
+                const filteredTypes = pokemons.types?.some((type) => type === payload.type)
+
+                if (filteredTypes === true) {
+                    return pokemons;
+                }
+            })
+            console.log('filteredPokemonTypeApi', filteredPokemonTypeApi)
+
+            const filteredPokemonTypeDb = copyPokemonTypes.dbData?.filter((pokemons) => {
+                const filteredTypes = pokemons.types?.some((type) => type === payload.type)
+
+                if (filteredTypes === true) {
+                    return pokemons;
+                }
+            })
+            console.log('filteredPokemonTypeDb', filteredPokemonTypeDb)
+
+            if (payload.origin === 'ALL') {
+                return {
+                    ...state,
+                    pokemons: { pokemonData: filteredPokemonTypeApi, dbData: filteredPokemonTypeDb }
+                }
+            }
+            if (payload.origin === 'API') {
+                return {
+                    ...state,
+                    pokemons: { pokemonData: filteredPokemonTypeApi, dbData: [] }
+                }
+            }
+            if (payload.origin === 'DB') {
+                return {
+                    ...state,
+                    pokemons: { dbData: filteredPokemonTypeDb, pokemonData: [] }
+                }
+            }
+
+
+        case FILTER_POKEMON_BY_ATTACK:
+            const attack = { ...state.pokemons };
+
 
 
 
@@ -104,6 +166,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 pokemonsTypes: payload,
+                pokemonsTypeBackup: payload,
+
             }
 
         default: return {

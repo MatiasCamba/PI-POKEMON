@@ -5,6 +5,9 @@ export const CREATE_POKEMON = 'CREATEPOKEMON';
 export const FILTER_POKEMON_ORDER = 'FILTERPOKEMONORDER'
 export const POKEMON_TYPES = 'POKEMONTYPES';
 export const FILTER_POKEMON_ORIGIN = 'FILTERPOKEMONORIGIN';
+export const FILTER_POKEMON_TYPE = 'FILTERPOKEMONTYPE';
+export const FILTER_POKEMON_BY_ATTACK = 'FILTERPOKEMONBYATTACK';
+export const REFRESH_POKEMON = 'REFRESHPOKEMON';
 
 
 import axios, { all } from 'axios';
@@ -18,43 +21,57 @@ export const GETPOKEMONS = () => async (dispatch) => {
         const dataDb = apiResponse.data.dbData;
         let newDataDb = []
         dataDb.map((pokemon) => newDataDb.push(
-
+                
                 {
                         ...pokemon,
                         origin: "DB",
-
+                        types: dataDb[0]?.types.map((type) => type.name)
+                        
                 }
-        ))
-
-        const allUrlData = pokemonsData.map((pokemons) => (pokemons.url));
-
-        let allUrlDataResponse = [];
-        await Promise.all(allUrlData.map(async (url) => {
-                try {
-                        const { data } = await axios.get(url)
-
-                        allUrlDataResponse.push(data)
-
-                } catch (error) {
-                        throw new Error('No fue posible realizar la petición')
-                }
-        }));
-        let urlData = [];
-        allUrlDataResponse.map((pokemon) => urlData.push(
-                {
-                        name: pokemon.name,
-                        image: pokemon.sprites.front_default,
-                        id: pokemon.id,
-                        origin: "API"
-                }
-        ))
-
+                ))
+                
+                
+                const allUrlData = pokemonsData.map((pokemons) => (pokemons.url));
+                
+                let allUrlDataResponse = [];
+                await Promise.all(allUrlData.map(async (url) => {
+                        try {
+                                const { data } = await axios.get(url)
+                                
+                                allUrlDataResponse.push(data)
+                                
+                        } catch (error) {
+                                throw new Error('No fue posible realizar la petición')
+                        }
+                }));
+                let urlData = [];
+                allUrlDataResponse.map((pokemon) => urlData.push(
+                        {
+                                name: pokemon.name,
+                                image: pokemon.sprites.front_default,
+                                id: pokemon.id,
+                                types: pokemon.types?.map((element) => element.type.name),
+                                attack : pokemon.stats[1].base_stat,
+                                origin: "API"
+                        }
+                        ))
+                        
+                    
+                
 
 
         dispatch({
                 type: GET_POKEMONS,
                 payload: { pokemonData: urlData, dbData: newDataDb }
         })
+
+}
+export const REFRESHPOKEMON = () => {
+
+        return ({
+                type: REFRESH_POKEMON,
+        })
+
 
 }
 
@@ -91,12 +108,14 @@ export const SEARCHPOKEMON = (name) => async (dispatch) => {
                 } else if (searchDb !== undefined) {
                         dispatch({
                                 type: SEARCH_POKEMON,
-                                payload: searchDb[0]
+                                //payload: searchDb[0]
+                                payload: [searchDb[0]]
                         })
                 } else if (searchApi !== undefined) {
                         dispatch({
                                 type: SEARCH_POKEMON,
-                                payload: searchApi
+                                //payload: searchApi
+                                payload: [searchApi]
                         })
                 }
 
@@ -157,11 +176,27 @@ export const FILTERPOKEMONORDER = (order) => {
         }
 
 }
+export const FILTERPOKEMONBYATTACK = (order) => {
+        return {
+                type: FILTER_POKEMON_BY_ATTACK,
+                payload: order
+        }
+}
 export const FILTERPOKEMONORIGIN = (origin) => {
-        console.log('origin', origin)
+
         return {
                 type: FILTER_POKEMON_ORIGIN,
                 payload: origin
+        }
+}
+export const FILTERPOKEMONTYPE = (type,origin) => {
+      
+        return {
+                type: FILTER_POKEMON_TYPE,
+                payload: {
+                        type : type,
+                        origin : origin
+                }
         }
 }
 

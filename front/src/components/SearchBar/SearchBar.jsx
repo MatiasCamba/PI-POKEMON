@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { SEARCHPOKEMON } from '../../redux/actions/actions'
 import './SearchBar.css'
 import FilterOptions from '../Filters/FilterOptions'
+import { REFRESHPOKEMON } from '../../redux/actions/actions'
 
 
 const SearchBar = () => {
@@ -14,6 +15,10 @@ const SearchBar = () => {
     dispatch(SEARCHPOKEMON(name))
   }
 
+  const refresh = () => {
+
+    dispatch(REFRESHPOKEMON())
+  }
   return (
     <div className='searchBar-container'>
       <input className='searchInput' type="text"
@@ -23,7 +28,7 @@ const SearchBar = () => {
       />
       <button onClick={handleSearch}>Search</button>
 
-
+      <button onClick={refresh}>Refresh</button>
       <aside>
         <FilterOptions />
       </aside>

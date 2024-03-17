@@ -3,6 +3,7 @@ import './Card.css'
 import { Link } from 'react-router-dom'
 
 const Card = ({ pokemonApi, pokemonDb }) => {
+
  
  
 
@@ -18,7 +19,7 @@ const Card = ({ pokemonApi, pokemonDb }) => {
           <h2>{pokemonApi && pokemonApi.name || pokemonDb && pokemonDb.name}</h2>
         </Link>
         {pokemonApi&&<h3>API</h3> || pokemonDb&&<h3>DB</h3>}
-        
+        <h3>Attack :{pokemonApi && pokemonApi.attack || pokemonDb.attack}</h3>
       </div>
     </div>
   )

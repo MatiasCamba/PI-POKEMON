@@ -11,7 +11,12 @@ exports.getPokemons = async (req, res) => {
         const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=65');
         const pokemonData = response.data.results;
       
-        const dbData = await Pokemon.findAll()
+        const dbData = await Pokemon.findAll({
+            include: {model: Type,
+            attributes: ['name'],
+            through: {attributes:[]}
+        }
+        })
      
         res.status(200).json({ pokemonData, dbData });
 
