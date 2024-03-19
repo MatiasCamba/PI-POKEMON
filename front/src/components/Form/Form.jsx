@@ -68,7 +68,7 @@ const Form = () => {
     if (name === 'name') {
       errorMessage = nameValidation(value) ? '' : 'Error on name field';
     } else if (name === 'image') {
-      errorMessage = imageValidation(value) ? '' : 'Error on image field';
+      errorMessage = imageValidation(value) ? '' : 'Error on image field (must be an URL)';
     } else if (['hp', 'attack', 'defense', 'speed', 'height', 'weight'].includes(name)) {
       errorMessage = statsValidation(value) ? '' : `Error on ${name} field`;
     }
