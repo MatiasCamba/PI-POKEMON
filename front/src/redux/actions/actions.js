@@ -20,16 +20,15 @@ export const GETPOKEMONS = () => async (dispatch) => {
         const pokemonsData = apiResponse.data.pokemonData;
         const dataDb = apiResponse.data.dbData;
         let newDataDb = []
-        dataDb.map((pokemon) => newDataDb.push(
+        dataDb.map((pokemon,index) => newDataDb.push(
                 
                 {
                         ...pokemon,
                         origin: "DB",
-                        types: dataDb[0]?.types.map((type) => type.name)
+                        types: dataDb[index].types?.map((type) => type?.name)
                         
                 }
                 ))
-                
                 
                 const allUrlData = pokemonsData.map((pokemons) => (pokemons.url));
                 
@@ -56,7 +55,6 @@ export const GETPOKEMONS = () => async (dispatch) => {
                         }
                         ))
                         
-                    
                 
 
 

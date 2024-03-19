@@ -13,10 +13,11 @@ exports.getPokemons = async (req, res) => {
       
         const dbData = await Pokemon.findAll({
             include: {model: Type,
-            attributes: ['name'],
-            through: {attributes:[]}
-        }
+                attributes: ['name'],
+                through: {attributes:[]}
+            }
         })
+        console.log('dbData',dbData)
      
         res.status(200).json({ pokemonData, dbData });
 

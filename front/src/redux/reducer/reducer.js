@@ -113,10 +113,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
             }
 
         case FILTER_POKEMON_TYPE:
-            console.log('payload', payload)
+
             const copyPokemonTypes = { ...state.pokemonsBackup };
-
-
 
             const filteredPokemonTypeApi = copyPokemonTypes.pokemonData?.filter((pokemons) => {
                 const filteredTypes = pokemons.types?.some((type) => type === payload.type)
@@ -125,16 +123,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     return pokemons;
                 }
             })
-            console.log('filteredPokemonTypeApi', filteredPokemonTypeApi)
 
             const filteredPokemonTypeDb = copyPokemonTypes.dbData?.filter((pokemons) => {
+
                 const filteredTypes = pokemons.types?.some((type) => type === payload.type)
 
                 if (filteredTypes === true) {
                     return pokemons;
                 }
             })
-            console.log('filteredPokemonTypeDb', filteredPokemonTypeDb)
 
             if (payload.origin === 'ALL') {
                 return {
@@ -142,12 +139,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
                     pokemons: { pokemonData: filteredPokemonTypeApi, dbData: filteredPokemonTypeDb }
                 }
             }
+
             if (payload.origin === 'API') {
                 return {
                     ...state,
                     pokemons: { pokemonData: filteredPokemonTypeApi, dbData: [] }
                 }
             }
+
             if (payload.origin === 'DB') {
                 return {
                     ...state,
@@ -159,23 +158,26 @@ const rootReducer = (state = initialState, { type, payload }) => {
         case FILTER_POKEMON_BY_ATTACK:
 
             const filterAttack = { ...state.pokemonsBackup };
+            let filteredAttack
 
-
-            let filterAttackApi, filterAttackDb;
-
+          
+            
             if (payload === 'attack-') {
-                filterAttackApi = filterAttack.pokemonData?.sort((a, b) => a.attack - b.attack)
-                filterAttackDb = filterAttack.dbData?.sort((a, b) => a.attack - b.attack)
+                const filteredArray =  filterAttack.pokemonData?.concat(filterAttack.dbData)
+                
+                filteredAttack = filteredArray?.sort((a, b) => a.attack - b.attack) 
             }
 
             if (payload === 'attack+') {
-                filterAttackApi = filterAttack.pokemonData?.sort((a, b) => b.attack - a.attack);
-                filterAttackDb = filterAttack.dbData?.sort((a, b) => b.attack - a.attack)
-            }
+                const filteredArray =  filterAttack.pokemonData?.concat(filterAttack.dbData)
+                
+                filteredAttack = filteredArray?.sort((a, b) => b.attack - a.attack) 
+          }
+            
 
             return {
                 ...state,
-                pokemons: { pokemonData: filterAttackApi, dbData: filterAttackDb }
+                pokemons: { pokemonData:filteredAttack}
             }
 
 
