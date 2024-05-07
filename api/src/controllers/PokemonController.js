@@ -60,14 +60,14 @@ exports.getPokemonsById = async (req, res) => {
 
             return res.status(200).json(bdData);
         }
-
-
-
-
     } catch (error) {
         res.status(404).json({ error: "Error at pokemon ID!" })
     }
 }
+
+
+
+
 
 
 exports.getPokemonsByName = async (req, res) => {

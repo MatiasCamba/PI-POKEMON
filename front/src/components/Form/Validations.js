@@ -1,6 +1,9 @@
 
 
 export const nameValidation = (name) => {
+  if(name.length > 20){
+   return 'Error on name field'
+  }
    return  /^[a-zA-Z\s]+$/.test(name)
 }
 
